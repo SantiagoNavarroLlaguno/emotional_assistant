@@ -20,8 +20,8 @@ class ConversationAnalyzer:
     def __init__(self, transcript_data: List[Dict[str, Any]]):
         self.transcript_data = sorted(
             transcript_data, 
-            key=lambda x: parse_datetime(x['timestamp'])
-        )
+            key=lambda x: x['timestamp'] if isinstance(x['timestamp'], datetime) else parse_datetime(x['timestamp'])
+    )
     
     def analyze(self) -> Dict[str, Any]:
         """Ejecuta el análisis completo de la conversación."""
@@ -48,8 +48,13 @@ class ConversationAnalyzer:
         
         session_count = 1
         for i in range(1, len(self.transcript_data)):
-            prev_time = parse_datetime(self.transcript_data[i-1]['timestamp'])
-            curr_time = parse_datetime(self.transcript_data[i]['timestamp'])
+            prev_time = self.transcript_data[i-1]['timestamp']
+            curr_time = self.transcript_data[i]['timestamp']
+            
+            if isinstance(prev_time, str):
+                prev_time = parse_datetime(prev_time)
+            if isinstance(curr_time, str):
+                curr_time = parse_datetime(curr_time)
             
             time_diff = curr_time - prev_time
             if time_diff > timedelta(minutes=self.SESSION_TIMEOUT_MINUTES):
@@ -66,8 +71,13 @@ class ConversationAnalyzer:
         current_session = 1
         
         for i in range(1, len(self.transcript_data)):
-            prev_time = parse_datetime(self.transcript_data[i-1]['timestamp'])
-            curr_time = parse_datetime(self.transcript_data[i]['timestamp'])
+            prev_time = self.transcript_data[i-1]['timestamp']
+            curr_time = self.transcript_data[i]['timestamp']
+            
+            if isinstance(prev_time, str):
+                prev_time = parse_datetime(prev_time)
+            if isinstance(curr_time, str):
+                curr_time = parse_datetime(curr_time)
             
             time_diff = curr_time - prev_time
             if time_diff > timedelta(minutes=self.SESSION_TIMEOUT_MINUTES):
