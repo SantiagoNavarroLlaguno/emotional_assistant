@@ -117,6 +117,13 @@ curl -X POST http://localhost:8000/api/analyze/ \
 - **Por qué**: Response de análisis es pequeño (< 1KB); no hay endpoint de listado
 - **Mejora futura**: Necesario para `GET /api/conversations/`
 
+1 palabra tiene en promedio 5 chars
+1 char 1 byte
+5 bytes
+10 palabras = 50 bytes
+4 oraciones por conv = 200/250 bytes
+4-5 sesiones por conv - 
+
 ## Mejoras con Más Tiempo
 
 **1. Dashboard de validación para psicólogos**

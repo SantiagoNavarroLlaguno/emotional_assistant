@@ -24,6 +24,7 @@ class AnalyzeConversationView(APIView):
         transcript_data = input_serializer.validated_data['transcript']
         
         try:
+            'Momento Clave: Celery Worker aqui'
             with transaction.atomic():
                 conversation = Conversation.objects.create()
                 
